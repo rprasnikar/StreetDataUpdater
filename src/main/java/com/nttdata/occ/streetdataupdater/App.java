@@ -6,10 +6,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) 
     {
         String s = "http://www.statistik.at/verzeichnis/strassenliste/gemplzstr.zip";
         URL u;
@@ -31,15 +34,22 @@ public class App
                     if(entry.getName().equalsIgnoreCase("gemplzstr.xml"))
                     {
                         System.out.println("entry: " + entry.getName() + ", " + entry.getSize());
-                        f = new File(entry.getName());
-                        os = new FileOutputStream(f);
-                        while(zis.available() > 0)
+//                        f = new File(entry.getName());
+//                        os = new FileOutputStream(f);
+//                        while(zis.available() > 0)
+//                        {
+////                          System.out.println("Avail: " + zis.available());
+//                            os.write(zis.read());
+//                        }
+//                        os.close();
+                        XMLInputFactory factory = XMLInputFactory.newInstance();
+                        XMLStreamReader parser = factory.createXMLStreamReader(zis);
+                        while (parser.hasNext())
                         {
-//                          System.out.println("Avail: " + zis.available());
-                            os.write(zis.read());
+//                            System.out.println( "Event: " + parser.getEventType() );
+                            parser.next();
                         }
-                        os.close();
-                    }
+                }
         }
                 zis.close();
 
@@ -47,6 +57,8 @@ public class App
         catch (MalformedURLException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLStreamException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
 
