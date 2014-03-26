@@ -46,7 +46,8 @@ public class App
                         XMLStreamReader parser = factory.createXMLStreamReader(zis);
                         while (parser.hasNext())
                         {
-//                            System.out.println( "Event: " + parser.getEventType() );
+                            System.out.println( "Event: " + parser.getEventType() );
+                       
                             parser.next();
                         }
                 }
