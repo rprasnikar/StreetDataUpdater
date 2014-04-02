@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -46,9 +47,32 @@ public class App
                         XMLStreamReader parser = factory.createXMLStreamReader(zis);
                         while (parser.hasNext())
                         {
-                            System.out.println( "Event: " + parser.getEventType() );
-                       
-                            parser.next();
+                            int event = parser.next();
+                            System.out.println( "Event: " + event );
+                            switch (event) {
+                                case XMLStreamConstants.START_DOCUMENT:
+                                    System.out.println( "START_DOCUMENT" );
+                                    break;
+                                case XMLStreamConstants.END_DOCUMENT:
+                                    System.out.println("END_DOCUMENT");
+                                    break;
+                                case XMLStreamConstants.START_ELEMENT:
+                                    System.out.println( "START_ELEMENT " + parser.getLocalName() + " " + parser.getAttributeCount());
+                                    break;
+                                case XMLStreamConstants.END_ELEMENT:
+                                    System.out.println( "END_ELEMENT" );
+                                    break;
+                                case XMLStreamConstants.ATTRIBUTE:
+                                    System.out.println( "ATTRIBUTE" );
+                                    break;
+                                case XMLStreamConstants.CHARACTERS:
+                                    System.out.println( "CHAR" );
+                                    break;                                    
+                                default:
+                                    System.out.println( "OTHER");
+                            }
+                            System.in.read();
+                            
                         }
                 }
         }
