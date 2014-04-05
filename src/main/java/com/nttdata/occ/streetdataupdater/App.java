@@ -91,11 +91,21 @@ public class App
                         Document doc = new SAXBuilder().build(zis);
 //                        XMLOutputter out = new XMLOutputter();
 //                        out.output(doc, System.out);
-                        Element daten = doc.getRootElement();
+                        Element root = doc.getRootElement();
+                        Element daten = root.getChild("daten");
+                        System.out.println(daten.getContentSize());
+                        List datensaetze = daten.getChildren("datensatz");
+                        System.out.println(datensaetze.size());
+                        Element e = (Element) datensaetze.get(1);
+                        List werte = e.getChildren("element");
+                        
                         List datenInfo = daten.getContent();
+                        System.out.println((Element) werte.get(0));
+                        
                         Iterator datenIterator = datenInfo.iterator();
                         while (datenIterator.hasNext())
                             System.out.println(datenIterator.next());
+                            
 //                        System.out.println(datenInfo.size());
 //                        break;
                     }
