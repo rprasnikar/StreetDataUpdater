@@ -21,6 +21,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class App 
 {
@@ -88,23 +89,26 @@ public class App
 //                        }
                         SAXParserFactory factory = SAXParserFactory.newInstance();
                         SAXParser saxParser = factory.newSAXParser();
-                        Document doc = new SAXBuilder().build(zis);
-//                        XMLOutputter out = new XMLOutputter();
-//                        out.output(doc, System.out);
-                        Element root = doc.getRootElement();
-                        Element daten = root.getChild("daten");
-                        System.out.println(daten.getContentSize());
-                        List datensaetze = daten.getChildren("datensatz");
-                        System.out.println(datensaetze.size());
-                        Element e = (Element) datensaetze.get(1);
-                        List werte = e.getChildren("element");
+                        DefaultHandler handler = new datenHandler();
+                        saxParser.parse(zis, handler);
                         
-                        List datenInfo = daten.getContent();
-                        System.out.println((Element) werte.get(0));
-                        
-                        Iterator datenIterator = datenInfo.iterator();
-                        while (datenIterator.hasNext())
-                            System.out.println(datenIterator.next());
+//                        Document doc = new SAXBuilder().build(zis);
+////                        XMLOutputter out = new XMLOutputter();
+////                        out.output(doc, System.out);
+//                        Element root = doc.getRootElement();
+//                        Element daten = root.getChild("daten");
+//                        System.out.println(daten.getContentSize());
+//                        List datensaetze = daten.getChildren("datensatz");
+//                        System.out.println(datensaetze.size());
+//                        Element e = (Element) datensaetze.get(1);
+//                        List werte = e.getChildren("element");
+//                        
+//                        List datenInfo = daten.getContent();
+//                        System.out.println((Element) werte.get(0));
+//                        
+//                        Iterator datenIterator = datenInfo.iterator();
+//                        while (datenIterator.hasNext())
+//                            System.out.println(datenIterator.next());
                             
 //                        System.out.println(datenInfo.size());
 //                        break;
@@ -121,9 +125,10 @@ public class App
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JDOMException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+//        catch (JDOMException ex) {
+//            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 }
